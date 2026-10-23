@@ -1,0 +1,23 @@
+name: Trigger Byzan Converter
+ 
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [trigger_byzan_converter]
+ 
+permissions:
+  contents: read
+ 
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Trigger Byzan Systems Workflow
+        env:
+          GH_TOKEN: ${{ secrets.BYZAN_DISPATCH_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            repos/Byzan-Systems/005TJ0127/actions/workflows/jpmc.yml/dispatches \
+            -f ref="master"
